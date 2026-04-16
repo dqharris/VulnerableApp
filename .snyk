@@ -1,0 +1,31 @@
+# Snyk policy file — suppressions for intentionally vulnerable educational demo
+# This is VulnerableApp (OWASP-style): weak crypto, hardcoded test creds, etc. are BY DESIGN.
+version: v1.25.0
+ignore:
+  # CWE-916: Insecure Hash — intentional educational demos of weak hashing
+  # CryptographicFailuresVulnerability teaches students why MD5/SHA-1 are broken
+  # AuthLoginService demonstrates multi-algorithm login (including weak ones)
+  'snyk:lic:maven:org.sasanlabs:CWE-916':
+    - '*':
+        reason: >
+          Intentional educational demonstration of weak cryptographic hashing
+          (MD5, SHA-1, unsalted SHA-256) for CWE-916 / OWASP A02. Each level
+          teaches students to crack the hash, proving the algorithm is
+          insufficient. Changing to a strong algorithm would eliminate the lesson.
+        expires: 2099-01-01T00:00:00.000Z
+  # CWE-547: Hardcoded Secret — false positive on PEM-file-derived key material
+  'snyk:lic:maven:org.sasanlabs:CWE-547':
+    - '*':
+        reason: >
+          Lines flagged in JWTUtils.java construct PKCS8EncodedKeySpec and
+          X509EncodedKeySpec from bytes parsed at runtime from PEM files loaded
+          via the classloader, not from hardcoded string literals.
+        expires: 2099-01-01T00:00:00.000Z
+  # CWE-798: Hardcoded Credentials — test fixture credentials for demo LDAP
+  'snyk:lic:maven:org.sasanlabs:CWE-798':
+    - '*':
+        reason: >
+          Test fixture credentials (alicePass123, antrikshPass123) for a
+          non-existent demo LDAP directory used to exercise LDAP injection
+          vulnerability levels. Not real system credentials.
+        expires: 2099-01-01T00:00:00.000Z
