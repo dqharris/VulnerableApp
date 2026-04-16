@@ -5,10 +5,25 @@ import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import org.sasanlabs.internal.utility.PasswordHashingUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmbeddedLDAPConfig {
+
+    // LDAP seed passwords externalized via @Value with environment variable override.
+    // Override via LDAP_ALICE_PASSWORD, LDAP_BOB_PASSWORD, etc. in deployment.
+    @Value("${ldap.seed.alice.password:#{T(java.util.UUID).randomUUID().toString().substring(0,12)}}")
+    private String alicePassword;
+
+    @Value("${ldap.seed.bob.password:#{T(java.util.UUID).randomUUID().toString().substring(0,12)}}")
+    private String bobPassword;
+
+    @Value("${ldap.seed.charlie.password:#{T(java.util.UUID).randomUUID().toString().substring(0,12)}}")
+    private String charliePassword;
+
+    @Value("${ldap.seed.antriksh.password:#{T(java.util.UUID).randomUUID().toString().substring(0,12)}}")
+    private String antrikshPassword;
 
     private static InMemoryDirectoryServer directoryServer;
 
@@ -59,14 +74,15 @@ public class EmbeddedLDAPConfig {
                 "objectClass: domain",
                 "dc: sasanlabs");
 
-        addUser("alice", "Alice", "alicePass123");
-        addUser("bob", "Bob", "bobPass123");
-        addUser("charlie", "Charlie", "charliePass123");
-        addUser("antriksh", "Antriksh", "antrikshPass123");
+        addUser("alice", "Alice", alicePassword);
+        addUser("bob", "Bob", bobPassword);
+        addUser("charlie", "Charlie", charliePassword);
+        addUser("antriksh", "Antriksh", antrikshPassword);
 
         for (int i = 5; i <= 10; i++) {
-
-            addUser("user" + i, "User " + i, "user" + i + "Pass123");
+            // Generate unique passwords for generic users
+            String userPassword = UUID.randomUUID().toString().substring(0, 12);
+            addUser("user" + i, "User " + i, userPassword);
         }
     }
 }
