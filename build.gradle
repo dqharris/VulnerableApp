@@ -133,18 +133,18 @@ dependencies {
     runtimeOnly group:'com.h2database', name:'h2'
     
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 	//Log4j Dependencies
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
 
     // https://mvnrepository.com/artifact/org.json/json
-    implementation group: 'org.json', name: 'json', version: '20190722'
+    implementation group: 'org.json', name: 'json', version: '20231013'
 
 	//https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
     implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.31'
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.14.0'
     
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
 
